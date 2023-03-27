@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.one{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#hello .one input{
+width: 400px;
+border-radius: 8px;
+}
+
+#hello .one button{
+margin-top: 10px;
+}
+
+
+
+
+/*Cadastro*/
+
+#cadastro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+    
+
+}
+
+#cadastro #form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 95%;
+    font-size: 1.5em;
+    
+}
+
+#form label{
+    margin-bottom: 5px;
+    color: #000;
+    font-weight: bold;
+}
+
+#form input{
+    border-radius: 8px;
+    border: none;
+    border-bottom: 1px solid #000;
+}
+
+#form input::placeholder{
+    padding-left: 15px;
+    color: #bbb7b7;
+    font-size: .7em;
+}
+
+
+#form input:focus::placeholder{
+    color: #FFF;
+}
+
+
+.hide{
+    display: none;
+}

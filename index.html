@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+
+    <script src="js/main.js" defer></script>
+    <script src="js/api.js" defer></script>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Trabalho facul</title>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYM8AHkPvECfDypVlCaYn1N5ghg6rH20o",
+            authDomain: "form-cba1d.firebaseapp.com",
+            projectId: "form-cba1d",
+            storageBucket: "form-cba1d.appspot.com",
+            messagingSenderId: "508731364754",
+            appId: "1:508731364754:web:ab2282484577fdd87d5d4b"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig)
+    </script>
+
+</head>
+
+
+
+<body>
+
+    <section id="hello" class="">
+        <div class="one">
+            <h1>Digite seu nome:</h1>
+            <input type="text" placeholder="Digite seu nome" id="helloNome">
+            <button class="btn btn-success" id="btnHello">Avançar</button>
+        </div>
+
+    </section>
+
+
+
+
+
+
+
+    <section class="d-none" id="cadastro">
+        <h1>Seja Bem Vindo <span id="showName"></span></h1>
+        <h2>Cadastre seu novo Cliente:</h2>
+        <form id="form">
+            <label>Nome Completo:</label>
+            <input type="text" placeholder="Seu nome completo" id="name" name="name" required>
+
+            <label>Telefone:</label>
+            <input type="tel" placeholder="(XX) XXXXX-XXXX" id="tel" name="tel" required>
+
+            <label>E-mail</label>
+            <input type="email" placeholder="teste@teste.com" id="email" name="email" required>
+
+            <label>CPF(Ficticio):</label>
+            <input type="text" placeholder="XXX.XXX.XXX-XX" id="cpf" name="cpf">
+
+            <div class="cep">
+                <label>CEP:</label>
+                <input type="text" placeholder="Seu CEP" id="cep" name="cep" required>
+                
+                
+                
+                <div id="endereco" class="d-none">
+                    <label>Rua:</label>
+                    <input type="text" value="" id="logradouro">
+
+                    <label>Bairro:</label>
+                    <input type="text" value="" id="bairro">
+
+                    <label>UF:</label>
+                    <input type="text" value="" id="uf">
+
+                </div>
+
+                <i class="fa-solid fa-magnifying-glass" id="btnCep"></i>
+                
+            </div>
+
+            <div id="gerarID">
+                <label>ID:</label>
+                <input type="text" id="spaceID" value="">
+                <i class="fa-solid fa-id-badge" id="btnID"></i>
+            </div>
+
+
+            <label>Profissão:</label>
+            <input type="text" placeholder="Sua Profissão" id="profissao" name="profissao" required>
+
+            <label>Genero:</label>
+            <input type="radio" placeholder="Masculino" value="Masculino" id="masculino" name="masculino">
+            <input type="radio" placeholder="Feminino" value="Feminino" id="feminino" name="feminino">
+
+            <button type="submit" class="btn btn-success" id="enviar">Enviar</button>
+        </form>
+
+    </section>
+
+
+    <section class="d-none" id="listaCadastrados">
+        <h1>Cadastados</h1>
+
+        <div>
+            <div id="filtro">
+                <input type="search" placeholder="nome,telefone, e-mail...">
+                <button type="button">Buscar</button>
+            </div>
+
+
+            <table class="table" id="minhaTabela">
+                <thead>
+                    <tr>
+
+                        <th scope="col">Nome</th>
+                        <th scope="col">Telefone</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">CPF</th>
+                        <th scope="col">CEP</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Profissão</th>
+                        <th scope="col">Genero</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+
+    <script>
+        const form = document.getElementById("form")
+        const sectionCadastro = document.getElementById("cadastro")
+        const listaCadastrados = document.getElementById("listaCadastrados")
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault()
+
+
+            const db = firebase.firestore();
+            const formData = new FormData(form);
+
+
+            db.collection('form').add({
+                name: formData.get('name'),
+                tel: formData.get('tel'),
+                email: formData.get('email'),
+                cpf: formData.get('cpf'),
+                endereco: formData.get('endereco'),
+                id: formData.get('id'),
+                profissao: formData.get('profissao'),
+                genero: formData.get('genero')
+
+            }).then((docRef) => {
+                form.reset()
+                console.log("Documento adicionado com ID:", docRef.id);
+                alert("Cliente Cadastrado com Sucesso, consulte na Lista")
+
+
+                sectionCadastro.classList.add("d-none")
+                listaCadastrados.classList.remove("d-none")
+            })
+                .catch((error) => {
+                    console.error("Erro ao adicionar documento:", error);
+                });
+        })
+
+
+    </script>
+
+    <script>
+
+
+
+        var db = firebase.firestore();
+        var minhaColecao = db.collection("form");
+
+
+        minhaColecao.get().then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                var dados = doc.data();
+                // fazer algo com os dados aqui
+            });
+        });
+
+
+
+        // Recuperar os dados da coleção
+        minhaColecao.get().then(function (querySnapshot) {
+            var tabela = document.getElementById("minhaTabela");
+            querySnapshot.forEach(function (doc) {
+                var dados = doc.data();
+                // Adicionar uma nova linha à tabela
+                var novaLinha = tabela.insertRow();
+                // Adicionar as células com os dados
+                var name = novaLinha.insertCell(0);
+                var email = novaLinha.insertCell(1);
+                var tel = novaLinha.insertCell(2);
+                var cpf = novaLinha.insertCell(3);
+                var cep = novaLinha.insertCell(4);
+                var id = novaLinha.insertCell(5);
+                var profissao = novaLinha.insertCell(6)
+                var genero = novaLinha.insertCell(7);
+                name.innerHTML = dados.name;
+                email.innerHTML = dados.email;
+                tel.innerHTML = dados.tel;
+                cpf.innerHTML = dados.cpf;
+                cep.innerHTML = dados.cep;
+                id.innerHTML = dados.id;
+                profissao.innerHTML = dados.profissao;
+                genero.innerHTML = dados.genero
+            });
+        });
+
+        console.log(db)
+    </script>
+
+    <script src="https://kit.fontawesome.com/47c9c3ebd3.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
